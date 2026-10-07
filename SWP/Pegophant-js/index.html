@@ -11,11 +11,29 @@
       <button onclick="pp_bewegen_rechts()">Nach rechts bewegen</button>
     -->
     <!--02.10.2026-->
+    <button>Reset se game</button>
     <script src="02.10.2026_PegoPhant_Aufgabe.js"></script>
 
-    <img src="Media/Pegaphant.jpg" alt="Pegaphant" id="id1" />
+    <img src="/SWP/Pegophant-js/Media/bumbum.png" class="canone" alt="canone" />
+    
 
     <style>
+      .canone {
+        width: 200px;
+        height: 200px;
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      button {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+        margin-top: 20px;
+      }
       body {
         width: 100dvw;
         height: 100dvh;
@@ -23,9 +41,8 @@
       }
 
       img {
-        width: 300px;
-        height: auto;
-        position: absolute;
+        width: 200px;
+        height: 200px;
       }
 
       .pegaClass {
