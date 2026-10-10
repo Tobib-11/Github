@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100dvw;
+            height: 100dvh;
+            display: flex;
+            position: relative;
+        }
+ 
+        #pega {
+            position: absolute;
+            height: auto;
+        }
+ 
+        .pegaclass {
+ 
+            position: absolute;
+            height: auto;
+        }
+    </style>
+</head>
+ 
+<body>
+ 
+ 
+    <script>
+ 
+        let p_id = "pega";
+        let p_posx = 0;
+        let p_posy = 0;
+        let p_direction = 1;
+        let p_name = "Pegafant";
+        //Ende von den Daten des Pegafanten
+ 
+        //Array von den Daten damit wenn man viele Daten hat bzw. viele Pegafanten, man nicht jedes mal die Daten angeben muss.
+        let pegaarray = [p_id, p_posx, p_posy, p_direction];
+        let gesamtPegaListe = [];
+
+        // Bildgröße für Berechnungen
+        const IMAGE_SIZE = 50;
+
+        // Dynamische Grenzwerte basierend auf Viewport (werden pro Bild aktualisiert)
+        let boundaryX = window.innerWidth;
+        let boundaryY = window.innerHeight;
+
+        // Bildgröße-Grenzen
+        const MIN_IMAGE_SIZE = 30;
+        const MAX_IMAGE_SIZE = 80;
+
+        // Aktualisiere Grenzwerte beim Fenster-Resize
+        window.addEventListener('resize', () => {
+            boundaryX = window.innerWidth;
+            boundaryY = window.innerHeight;
+        });
+
+	// Funktion zum sicheren Y-Wert ermitteln (abstand zum Schiff)
+	function getSafeY() {
+	    const shipElem = document.getElementById('pega');
+	    if (!shipElem) return Math.floor(Math.random() * boundaryY) + 1;
+	    const shipY = shipElem.offsetTop;
+	    let y;
+	    do {
+	        y = Math.floor(Math.random() * boundaryY) + 1;
+	    } while (Math.abs(y - shipY) < 30); // keep at least 30px away
+	    return y;
+	}
+        let bildergesamt = ["Media/bumbum.png", "Media/explosion.jpg", "Media/explosiongif.webp", "Media/images.jpg", "Media/images.webp"];
+ 
+ 
+        function createImg(n) {
+            for (let x = 0; x < n; x++) {
+                let random_x = parseInt(Math.random() * boundaryX) + 1;
+                let random_y = getSafeY();
+                let bildpfad = bildergesamt[Math.floor(Math.random() * bildergesamt.length)]
+ 
+                let img = document.createElement("img"); ///erzeuge Elemtent
+                img.src = bildpfad;       ///eigenschaften des Elements
+                img.className = "pegaclass";
+                img.style.left = random_x + "px";
+                img.style.top = random_y + "px";
+                img.id = "id" + x;
+
+                // Zufällige Bildgröße bei jedem Refresh
+                let randomSize = Math.floor(Math.random() * (MAX_IMAGE_SIZE - MIN_IMAGE_SIZE + 1)) + MIN_IMAGE_SIZE;
+                img.style.width = randomSize + "px";
+                img.style.height = "auto"; // Behält das Seitenverhältnis bei
+
+                document.body.appendChild(img);    //element in den body schreiben
+
+                // zufällige Richtung: -1, 0 oder 1 für beide Achsen
+                let random_dir_x = Math.floor(Math.random() * 3) - 1;
+                let random_dir_y = Math.floor(Math.random() * 3) - 1;
+
+                // verhindern, dass beide 0 sind
+                // sonst würde das Bild einfach stehen
+                if (random_dir_x == 0 && random_dir_y == 0) {
+                    random_dir_x = 1;
+                }
+
+                gesamtPegaListe.push(["id" + x, random_x, random_y, random_dir_x, random_dir_y, "Pegafant" + x]);
+            }
+ 
+        }
+ 
+        createImg(10);
+ 
+ 
+        function animateArray() {
+            const elephant = document.getElementById(pegaarray[0]);
+            // Aktualisiere die Position
+            pegaarray[1] += pegaarray[3] * 2; // Bewegungsgeschwindigkeit
+            // Ändere die Richtung, wenn der Elefant den Rand erreicht
+ 
+            if (pegaarray[1] <= 10) {
+                pegaarray[3] = 1; // Bewege nach rechts
+            } else if (pegaarray[1] >= 80) {
+                pegaarray[3] = -1; // Bewege nach links
+            }
+ 
+            // Setze die neue Position
+            // elephant.style.left = `${p_posx}%`;
+            elephant.style.top = `${pegaarray[1]}px`;
+            // Führe die Animation erneut aus
+            requestAnimationFrame(animateArray);
+        }
+ 
+        // animateArray();
+ 
+        function animateArrayGesamt() {
+            for (let x = 0; x < gesamtPegaListe.length; x++) {
+                //hole id für erste grafik
+                let idbild = gesamtPegaListe[x][0];
+                let bild_x = gesamtPegaListe[x][1];
+                let bild_y = gesamtPegaListe[x][2];
+                let bild_dir_x = gesamtPegaListe[x][3];
+                let bild_dir_y = gesamtPegaListe[x][4];
+                let elephant = document.getElementById(idbild);
+ 
+ 
+ 
+                // Bewegung in beide Richtungen (2D)
+                bild_x += bild_dir_x * 2;
+                bild_y += bild_dir_y * 2;
+
+                // Aktuelle Bilddimensionen ermitteln
+                const imgWidth = elephant.offsetWidth;
+                const imgHeight = elephant.offsetHeight;
+
+                // Rechte / Linke Grenze (x-Achse)
+                if (bild_x >= boundaryX - imgWidth) {
+ 
+                    bild_dir_x = -1;
+                }
+                if (bild_x <= 0) {
+                    bild_dir_x = 1;
+                }
+                // Untere / Obere Grenze (y-Achse)
+                if (bild_y >= boundaryY - imgHeight) {
+
+                    bild_dir_y = -1;
+
+                }
+                if (bild_y <= 0) {
+
+                    bild_dir_y = 1;
+
+                }
+ 
+ 
+                // neue Werte speichern
+                gesamtPegaListe[x][1] = bild_x;
+                gesamtPegaListe[x][2] = bild_y;
+                gesamtPegaListe[x][3] = bild_dir_x;
+                gesamtPegaListe[x][4] = bild_dir_y;
+ 
+                // Setze die neue Position
+                elephant.style.left = bild_x + "px";
+                elephant.style.top = bild_y + "px";
+                // Führe die Animation erneut aus
+ 
+            }
+            requestAnimationFrame(animateArrayGesamt);
+        }
+        animateArrayGesamt();
+    </script>
+ 
+</body>
+ 
+</html>
