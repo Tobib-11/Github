@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+ 
+<body>
+ 
+    <style>
+        body {
+ 
+            display: absolute;
+            margin: 0;
+        }
+ 
+        img {
+            width: 100px;
+            height: auto;
+            position: absolute;
+        }
+ 
+        .pegaClass {
+            width: 100px;
+            height: auto;
+            position: absolute;
+ 
+        }
+ 
+        .tankClass {
+            width: 200px;
+            height: auto;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+    </style>
+ 
+    <script>
+ 
+ 
+        let pp_Id = "id1";   //Id
+        let pp_positionX = 0;
+        let pp_positionY = 0;
+        let pp_richtung = 1;    //Richtung(1 = rechts, -1 = links)
+        let pp_name = "Niko";   //Name
+ 
+ 
+        let pp_array = [pp_Id, pp_positionX, pp_positionY, pp_richtung, pp_name];  //Array
+        let gesamtPegaListe = [];  //Array mit allen Pegaphanten
+        let Bilder = ["Pegaphant.png", "Niko.png", "Marcel.png"];  //Array mit allen Pegaphanten
+ 
+        
+        function createImg(n) {
+            for (let i = 0; i < n; i++) {
+ 
+                let randomX = parseInt(Math.random() * 1000 + 1);
+                let randomY = parseInt(Math.random() * 350 + 1);
+                let randomBild = parseInt(Math.floor(Math.random() * Bilder.length));
+                let randomRichtung = parseInt(Math.random() * 3 + 1); // 1, 2, or 3
+ 
+ 
+                let img = document.createElement("img");
+                img.src = "Media/" + Bilder[randomBild];
+                img.className = "pegaClass";
+                img.style.left = randomX + "px";
+                img.style.top = randomY + "px";
+                img.id = "id" + i;
+                document.body.appendChild(img);
+                gesamtPegaListe.push(["id" + i, randomX, randomY, randomRichtung, pp_name + i]);
+            }
+ 
+        }
+ 
+        createImg(10);
+ 
+        function animateArrayGesamt() {
+ 
+            for (let x = 0; x < gesamtPegaListe.length; x++) {
+ 
+                let idbild = gesamtPegaListe[x][0];
+                let posX = gesamtPegaListe[x][1];
+                let posY = gesamtPegaListe[x][2];
+                let richtung = gesamtPegaListe[x][3];
+ 
+                const pega = document.getElementById(idbild);
+ 
+                if (richtung == 1) posX += 2;
+                if (richtung == -1) posX -= 2;
+                if (richtung == 2) posY += 2;
+                if (richtung == -2) posY -= 2;
+                if (richtung == 3) posY += 2;
+                if (richtung == -3) posY -= 2;
+ 
+                if (posX > 1000) {
+                    richtung = -1;
+                }
+                if (posX < 0) {
+                    richtung = 1;
+                }
+ 
+                if (posY > 500) {
+                    richtung = -2;
+                }
+                if (posY < 0) {
+                    richtung = 2;
+                }
+ 
+ 
+                gesamtPegaListe[x][3] = richtung;
+                gesamtPegaListe[x][1] = posX;
+                gesamtPegaListe[x][2] = posY;
+ 
+ 
+                pega.style.left = gesamtPegaListe[x][1] + "px";
+                pega.style.top = gesamtPegaListe[x][2] + "px";
+            }
+ 
+            requestAnimationFrame(animateArrayGesamt);
+        }
+ 
+        animateArrayGesamt();
+ 
+       
+    
+ 
+ 
+ 
+    </script>
+ 
+</body>
+ 
+</html>
