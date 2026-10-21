@@ -13,14 +13,13 @@ let austomarken = ["BMW", "Mercedes", "Ferarri", "Lambo", "RR"];
 //auto.marke = "bmw";
 //auto.ps = 890;
 
-
-let anzahlAutos = 1000;
+let anzahlAutos = 10;
 const autos: Auto[] = [];
 for (let i = 1; i < anzahlAutos; i++) {
     autos.push(
         new Auto(
             austomarken[Math.floor(Math.random() * austomarken.length)],
-            Math.floor(Math.random() * 1000) + 50,
+            Math.floor(Math.random() * 10) + 1,
             farbe[Math.floor(Math.random() * farbe.length)],
         ),
     );

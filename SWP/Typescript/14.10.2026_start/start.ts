@@ -1,3 +1,6 @@
+//nicht notwendig
+
+
 let farbe = ["blue", "grey", "white", "black"];
 let austomarken = ["BMW", "Mercedes", "Ferarri", "Lambo", "RR"];
 
