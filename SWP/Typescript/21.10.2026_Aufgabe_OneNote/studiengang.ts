@@ -7,40 +7,40 @@ export class uni {
     private _studenten: Student[] = [];
 
     constructor(titel: string, regelzeit: number, abschluss: string) {
-        this._regelzeit = abschluss;
+        this._regelzeit = regelzeit;
         this._abschluss = abschluss;
-        this._title = titel;
+        this._titel = titel;
     }
 
-    get matrikelnummer(): string {
-        return this._matrikelnummer;
+    get regelzeit(): number {
+        return this._regelzeit;
     }
 
-    set matrikelnummer(value: string) {
-        this._matrikelnummer = value;
+    set regelzeit(value: number) {
+        this._regelzeit = value;
     }
 
-    get note(): number {
-        return this._note;
+    get titel(): string {
+        return this._titel;
     }
 
-    set note(value: number) {
-        this._number = value;
+    set titel(value: string) {
+        this._titel = value;
     }
 
-    get name(): string {
-        return this._name;
+    get abschluss(): string {
+        return this._abschluss;
     }
 
-    set name(value: string) {
-        this._name = value;
+    set abschluss(value: string) {
+        this._abschluss = value;
     }
 
     printdata() {
         console.log("Student ");
-        console.log("Matrikelnummer: " + this._matrikelnummer);
-        console.log("Name: " + this._name);
-        console.log("Note: " + this._note);
+        console.log("Titel: " + this._titel);
+        console.log("Regelzeit: " + this._regelzeit);
+        console.log("Abschluss: " + this._abschluss);
         console.log("---------------");
     }
 }

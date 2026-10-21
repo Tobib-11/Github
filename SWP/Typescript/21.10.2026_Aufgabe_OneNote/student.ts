@@ -24,7 +24,7 @@ export  class Student{
     }
     
     set note(value: number) {
-         this._number = value;
+         this._note = value;
     }
 
     get name():string{
